@@ -22,15 +22,10 @@ access_token=''
 access_token_secret=''
 
 # Use https://tweeterid.com/ to get the ID for users you want to follow.
-#@cfromhertz => 801116888
-#@optionshawk => 61342056
-#@canuck2usa => 430841130
-#@lmt978 => 1064700308
-#@zerohedge => 18856867
 #@cnn => 759251
 #@wsj => 3108351
 
-follow_list = ['801116888','61342056', '430841130','1064700308','18856867','759251','3108351']
+follow_list = ['759251','3108351']
 
 
 
