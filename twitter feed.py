@@ -10,6 +10,8 @@ import win32con
 import sys, os
 import struct
 import time
+import pyaudio  
+import wave  
 
 # Go to http://apps.twitter.com and create an app.
 # The consumer key and secret will be generated for you after
@@ -28,6 +30,35 @@ access_token_secret=''
 follow_list = ['759251','3108351']
 
 
+# https://stackoverflow.com/questions/17657103/how-to-play-wav-file-in-python
+def playChime():
+        
+    #define stream chunk   
+    chunk = 1024  
+    
+    #open a wav format music  
+    f = wave.open(r"chimes.wav","rb")  
+    #instantiate PyAudio  
+    p = pyaudio.PyAudio()  
+    #open stream  
+    stream = p.open(format = p.get_format_from_width(f.getsampwidth()),  
+                    channels = f.getnchannels(),  
+                    rate = f.getframerate(),  
+                    output = True)  
+    #read data  
+    data = f.readframes(chunk)  
+    
+    #play stream  
+    while data:  
+        stream.write(data)  
+        data = f.readframes(chunk)  
+    
+    #stop stream  
+    stream.stop_stream()  
+    stream.close()  
+    
+    #close PyAudio  
+    p.terminate()  
 
 # https://stackoverflow.com/questions/33949186/error-when-trying-to-reuse-windows-notification-class-in-python
 class WindowsBalloonTip:
@@ -62,7 +93,8 @@ class WindowsBalloonTip:
         Shell_NotifyIcon(NIM_MODIFY, \
                          (self.hwnd, 0, NIF_INFO, win32con.WM_USER+20,\
                           hicon, "Balloon  tooltip",msg,200,title))
-        time.sleep(8)
+        playChime()
+        time.sleep(3)
         DestroyWindow(self.hwnd)
 
     def OnDestroy(self, hwnd, msg, wparam, lparam):
